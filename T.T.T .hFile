@@ -1,0 +1,508 @@
+#pragma once
+#include<iostream>				
+#include <iomanip>				//setw manipulator 
+#include <string>				//strings
+#include<Windows.h>				//system 
+#include<ctime>					//sleep
+#include<random>					//srand
+#include<fstream>					//files
+#include<vector>	
+using namespace std;		//replacing std::
+string pname;	//get username 
+int tie{ 0 };		//counter ---> tie, player score and comp score  
+string o{ 'O' };		//o
+string x{ "X" };		//x
+int compScore{ 0 };			//keep tarck of computer score 
+int playerScore{ 0 };		//keeps track of playerscore 
+bool run = true;			//run time 
+char prompt;				//prompt
+int r = 1;					//r for rounds
+int compCh;					//int for computer choice
+string compChoice{};		//computer choice 
+int choice;					//player choice 
+string input;				// takes input 
+class tictactoe {			//class tic tac toe 
+public:
+
+	vector<string>num{ "0","1","2","3","4","5","6","7","8","9" };	// vector num
+
+
+	void username() {			// this function prompts for name and stores it into variable pname.
+		cout << "\n\t\t HELLO WELCOME!\n\n\t\t Enter your name: ";
+		cin >> pname;
+		cout << endl;
+		setName(pname);		//sets name --> private name 
+	}
+	void tittle() {				//this function displays name 
+		cout << "\nMohammed Khan\nDate:4/27/2022\nLab - 3\n\n";
+	}
+	void display() {		//displays score board
+		cout << getplayerName() << ",Here is your score board.\n\n";
+		Sleep(1000);
+		cout << "\nWins : " << playerScore << endl;		//gets private information 
+		cout << "\nLoss : " << compScore << endl;		//gets private information 
+		cout << "\nTie : " << getTie() << endl << endl << endl;	// gets private information 
+		Sleep(1000);
+	}
+	void writeResults() {		//this function writes the result 
+		fstream points;			//opens the file 
+		points.open("points.txt", ios::app);
+		if (!points) {
+			cerr << "\n Error opening file";
+			exit(EXIT_FAILURE);
+		}
+
+		if (num[1] == x && num[2] == x && num[3] == x)
+		{
+			cout << "You WON in a horizontal line! Winning numbers: 1, 2, 3\n\n";
+			points << "Player 1 won! in a horizontal line! Winning numbers: 1, 2, 3\n\n";//records in file 
+			playerScore++;
+			setWin(playerScore);		//sets private score
+			display();					//display score
+			Sleep(1000);
+			clear();				//clear 
+			restart();				//restart the function 
+		}
+		else if (num[1] == o && num[2] == o && num[3] == o)
+		{
+			cout << "Computer WON in a horizantal line! Winning numbers: 1, 2, 3\n\n";
+			points << "Computer WON in a horizantal line! Winning numbers: 1, 2, 3\n\n";//records in file
+			compScore++;
+			setLoss(compScore); //sets private score
+			display();	//display score
+			clear(); //clear 
+			restart();//restart the function 
+		}
+
+		else if (num[4] == x && num[5] == x && num[6] == x)
+		{
+			cout << "You WON in a horizontal line! Winning numbers: 4, 5, 6\n\n";
+			points << "Player 1 won! in a horizontal line! Winning numbers: 4, 5, 6\n\n";
+			playerScore++;
+			setWin(playerScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[4] == o && num[5] == o && num[6] == o)
+		{
+			cout << "Computer WON in a horizontal line! Winning numbers: 4, 5, 6\n\n";
+			points << "Computer WON in a horizontal line! Winning numbers: 4, 5, 6\n\n";
+			compScore++;
+			setLoss(compScore);
+			display();
+			clear();
+			restart();
+		}
+
+		else if (num[7] == x && num[8] == x && num[9] == x)
+		{
+			cout << "You WON in a horizontal line! Winning numbers: 7, 8, 9 \n\n";
+			points << "Player 1 won! in a horizontal line! Winning numbers: 7, 8, 9\n\n";
+			playerScore++;
+			setWin(playerScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[7] == o && num[8] == o && num[9] == o)
+		{
+			cout << "Computer WON in a horizontal line! Winning numbers: 7, 8, 9\n\n";
+			points << "Computer WON in a horizontal line! Winning numbers: 7, 8, 9\n\n";
+			compScore++;
+			setLoss(compScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[1] == x && num[4] == x && num[7] == x)
+		{
+			cout << "You WON in a vertical line! Winning numbers: 1, 4, 7\n";
+			points << "player 1 won in a vertical line! Winning numbers: 1, 4, 7\n";
+			playerScore++;
+			setWin(playerScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[1] == o && num[4] == o && num[7] == o)
+		{
+			cout << "Computer WON in a vertical line! Winning numbers: 1, 4, 7\n\n";
+			points << "Computer WON in a vertical line! Winning numbers: 1, 4, 7\n\n";
+			compScore++;
+			setLoss(compScore);
+			display();
+			clear();
+			restart();
+		}
+
+		else if (num[2] == x && num[5] == x && num[8] == x)
+		{
+			cout << "You WON in a vertical line! Winning numbers: 2, 5, 8 \n\n";
+			points << "You WON in a vertical line! Winning numbers: 2, 5, 8 \n\n";
+			playerScore++;
+			setWin(playerScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[2] == o && num[5] == o && num[8] == o)
+		{
+			cout << "Computer WON in a vertical line! Winning numbers: 2, 5, 8 \n\n";
+			points << "Computer WON in a vertical line! Winning numbers: 2, 5, 8 \n\n";
+			compScore++;
+			setLoss(compScore);
+			display();
+			clear();
+			restart();
+		}
+
+		else if (num[3] == x && num[6] == x && num[9] == x)
+		{
+			cout << "You WON in a vertical line! Winning numbers: 3, 6, 9 \n\n";
+			points << "Player 1 WON in a vertical line! Winning numbers: 3, 6, 9 \n\n";
+			playerScore++;
+			setWin(playerScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[3] == o && num[6] == o && num[9] == o)
+		{
+			cout << "Computer WON in a vertical line! Winning numbers: 3, 6, 9\n\n";
+			points << "Computer WON in a vertical line! Winning numbers: 3, 6, 9\n\n";
+			compScore++;
+			setLoss(compScore);
+			display();
+			clear();
+			restart();
+		}
+
+		else if (num[1] == x && num[5] == x && num[9] == x)
+		{
+			cout << "You WON in a diagonal line! Winning numbers: 1, 5, 9\n\n";
+			points << "Player 1 WON in a diagonal line! Winning numbers: 1, 5, 9\n\n";
+			playerScore++;
+			setWin(playerScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[1] == o && num[5] == o && num[9] == o)
+		{
+			cout << "Computer WON in a diagonal line! Winning numbers: 1, 5, 9 \n\n";
+			points << "Player 1 WON in a diagonal line! Winning numbers: 1, 5, 9 \n\n";
+			compScore++;
+			setLoss(compScore);
+			display();
+			clear();
+			restart();
+		}
+
+		else if (num[3] == x && num[5] == x && num[7] == x)
+		{
+			cout << "You WON in a diagonal line! Winning numbers: 3, 5, 7 \n\n";
+			points << "Player 1 WON in a diagonal line! Winning numbers: 3, 5, 7 \n\n";
+			playerScore++;
+			setWin(playerScore);
+			display();
+			clear();
+			restart();
+		}
+		else if (num[3] == o && num[5] == o && num[7] == o)
+		{
+			cout << "Computer WON in a diagonal line! Winning numbers: 3, 5, 7 \n\n";
+			points << "Computer WON in a diagonal line! Winning numbers: 3, 5, 7 \n\n";
+			compScore++;
+			setLoss(compScore);
+			display();
+			clear();
+			restart();
+		}
+		else if ((num[1] == x || num[1] == o) && (num[2] == x || num[2] == o) && (num[3] == x || num[3] == o) &&
+			(num[4] == x || num[4] == o) && (num[5] == x || num[5] == o) && (num[6] == x || num[6] == o) &&
+			(num[7] == x || num[7] == o) && (num[8] == x || num[8] == o) && (num[9] == x || num[9] == o)) {
+
+			system("Color 0c");
+			cout << "\nIt's a tie!";
+			tie++;
+			setTie(tie);
+			display();
+			clear();
+			restart();
+
+
+		}
+		points.close();		//closes the file 
+	}
+	void displayBoard(void) //Displays table and numbers;
+	{
+		system("COLOR FC");
+		cout << endl;
+		cout << "\t" << "  " << num[1] << "  |  " << num[2] << "  |  " << num[3] << "  " << "\n";
+		cout << "\t" << "_____|_____|_____" << "\n";
+		cout << "\t" << "     |     |     " << "\n";
+		cout << "\t" << "  " << num[4] << "  |  " << num[5] << "  |  " << num[6] << "  " << "\n";
+		cout << "\t" << "_____|_____|_____" << "\n";
+		cout << "\t" << "     |     |     " << "\n";
+		cout << "\t" << "  " << num[7] << "  |  " << num[8] << "  |  " << num[9] << "  " << "\n";
+		cout << "\t" << "     |     |     " << "\n\n";
+	}
+	int getWin() {		//gets win 
+		return totalWin;
+	}
+	int getLoss() {	//get loss
+		return totalLoss;
+	}
+	string getfileName() {	//gets filename 
+		return fileName;
+	}
+	string getplayerName() {	//gets player name 
+		return playerName;
+	}
+	void setWin(int cwin) {//sets win 
+		totalWin = cwin;
+	}
+	void setLoss(int closs) {		//sets lose
+		totalWin = closs;
+	}
+	void setName(string name) {	//sets name 
+		playerName = name;
+	}
+	void setTie(int ctie) {	//sets tie 
+		tie = ctie;
+	}
+	int getTie() {		//gets tie 
+		return tie;
+	}
+	void clear(void)//clear screen make everything normal 
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			num[i] = '0' + i;		 //clears board
+		}
+	}
+	void restart(void)
+	{
+		cout << "\n\nNew game? (y/n): "; //prompt
+		cin >> prompt;
+
+		while (prompt != 'y' && prompt != 'n')
+		{
+			cout << "Please enter y or n";
+			return restart();
+		}
+		if (prompt == 'y')
+		{
+			system("cls");
+			r++;
+			start();
+		}
+		else if (prompt == 'n')
+		{
+			run = false;
+			cout << "Scores : ";
+			Sleep(1000);
+			scoreFile();
+			exit(0);
+
+		}
+
+	}
+	void scoreFile(void)		//writes everything into the file 
+	{
+		fstream score;
+
+		score.open("scores.txt", ios::out);
+
+		if (!score)
+		{
+			cerr << "Error opening file. Try again.";
+			exit(EXIT_FAILURE);
+		}
+		while (!score.eof())
+		{
+			score >> compScore >> playerScore >> tie;
+			cout << "\nCOMPUTER SCORE: " << compScore << "\n\nPLAYER 1 SCORE: " << playerScore << "\n\nNUMBER OF TIES: " << tie << endl; //dispalying on file
+
+		}
+
+		score.close();//close the file 
+
+	}
+	void start(void)		//starts the function 
+	{
+		cout << "Round - " << r;		//display round 
+
+		fstream points;				//opens the file 
+		points.open("points.txt", ios::app);
+		if (!points) {
+			cerr << "\n Error opening file";
+			exit(EXIT_FAILURE);
+		}
+		points << "Round : " << r << endl;	//keeps track of rounds 
+		points.close();	//closes the file 
+		displayBoard();	//display board and repeat 
+		computer();		//player run 
+		Sleep(1000);
+		system("cls");
+		writeResults();
+		displayBoard();
+		player1();
+		displayBoard();
+		writeResults();
+		Sleep(1000);
+		system("cls");
+		displayBoard();
+		writeResults();
+	}
+	void player1(void)
+	{
+		start: 
+
+		choice = protectInput("\nPlayer 1 enter a square : "); //prompt
+
+		input = to_string(choice); //convert
+
+		fstream points;
+		points.open("points.txt", ios::app);
+		if (!points) {
+			cerr << "\n Error opening file";
+			exit(EXIT_FAILURE);
+		}
+
+		points << "Player Choice : " << input << endl;
+
+		if (input != x) {
+			
+			for (int i = 1; i <= 9; i++)		//if matches swap 
+			{
+
+				if (input == num[i])
+				{
+					num[i] = x;
+
+				}
+			}
+		}
+		else {
+			cout << "\nInvalid: Already Selected\n";
+			goto start;
+		}
+
+			
+
+		
+		points.close();
+
+	}
+
+	void computer(void)
+	{
+
+		int j{};		//counter
+
+		srand(time(0));		//generates random numbers 
+
+		fstream points;
+		points.open("points.txt", ios::app);
+		if (!points) {
+			cerr << "\n Error opening file";
+			exit(EXIT_FAILURE);
+		}
+
+		compCh = 1 + (rand() % 9);			//picks random number between 1 and 9
+		compChoice = to_string(compCh);			// casting int to string
+		bool mark = true;
+		while (mark == true) {
+			if (compChoice == "1" && num[1] == "1") {
+				num[1] = o;
+				points << "Computer Choice : " << "1" << endl;
+				mark = false;
+			}
+			else if (compChoice == "2" && num[2] == "2")
+			{
+				num[2] = o;
+				points << "Computer Choice : " << "2" << endl;
+				mark = false;
+			}
+			else if (compChoice == "3" && num[3] == "3")
+			{
+				num[3] = o;
+				points << "Computer Choice : " << "3" << endl;
+				mark = false;
+			}
+			else if (compChoice == "4" && num[4] == "4")
+			{
+				num[4] = o;
+				points << "Computer Choice : " << "4" << endl;
+				mark = false;
+			}
+			else if (compChoice == "5" && num[5] == "5")
+			{
+				num[5] = o;
+				points << "Computer Choice : " << "5" << endl;
+				mark = false;
+			}
+			else if (compChoice == "6" && num[6] == "6")
+			{
+				num[6] = o;
+				points << "Computer Choice : " << "6" << endl;
+				mark = false;
+			}
+			else if (compChoice == "7" && num[7] == "7")
+			{
+				num[7] = o;
+				points << "Computer Choice : " << "7" << endl;
+				mark = false;
+			}
+			else if (compChoice == "8" && num[8] == "8")
+			{
+				num[8] = o;
+				points << "Computer Choice : " << "8" << endl;
+				mark = false;
+			}
+			else if (compChoice == "9" && num[2] == "9")
+			{
+				num[9] = o;
+				points << "Computer Choice : " << "9" << endl;
+				mark = false;
+
+			}
+			else {
+				compCh = 1 + (rand() % 9);			//picks random number between 1 and 9
+				compChoice = to_string(compCh);
+
+			}
+		}
+		points.close();
+
+	}
+
+	int protectInput(string prompt)
+	{
+
+		int temp{};
+		cout << prompt;
+		cin >> temp;
+		while (temp < 1 || temp>9 || cin.fail()) {
+			while (cin.fail()) {
+				cout << "Invalid Input! Try Again.";
+				cin.clear();
+				cin.ignore();
+				cin >> prompt;
+			}
+			cout << "Please enter a square 1-9: ";
+			cin >> temp;
+		}
+		return temp;
+
+	}
+
+private:
+	string fileName;
+	string playerName;
+	int totalWin = 0;
+	int totalLoss = 0;
+	int tie = 0;
+}; 
